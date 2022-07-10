@@ -1,0 +1,20 @@
+{% extends 'deafult.html' %}
+
+{% block title %}
+Advert
+{% endblock title %}
+
+{% block content %}
+    {% if request.user != advertView.id_user %}
+        <br>
+        <h2>New advert</h2>
+        <form method="POST">
+            {% csrf_token %}
+        <table align="center">
+            {{ form }}
+        </table>
+            <input type="hidden" name="id_advert" value="{{ advertView.pk }}">
+            <input type="submit" value="Confirm">
+        </form>
+    {% endif %}
+{% endblock content %}

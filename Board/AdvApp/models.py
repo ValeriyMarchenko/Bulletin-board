@@ -19,13 +19,18 @@ class Advert(models.Model):
     id_category = models.CharField(max_length=12, choices=CATEGORY, default='DDs')
     text = models.TextField()
     file = models.FileField(upload_to='uploads/')
+    image = models.ImageField(upload_to='uploads/')
     title = models.CharField(max_length=128)
+    dateCreation = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
         string = self.text[0:20]
         if len(self.text) > len(string):
             string += "..."
         return string
+
+    def get_absolute_url(self):  
+        return f'/adverts/{self.id}'
 
 
 class Response(models.Model):
