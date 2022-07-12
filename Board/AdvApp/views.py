@@ -1,9 +1,10 @@
 from django.shortcuts import render
-
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+
 from .models import *
 from .forms import CreateAdvertForm, CreateResponseForm
 from .filters import ResponseFilter
+
 from django.shortcuts import redirect
 from datetime import datetime
 
@@ -13,10 +14,11 @@ class AdvertList(ListView):
     template_name = 'adverts.html'
     context_object_name = 'advertList'
     queryset = Advert.objects.order_by('-dateCreation')
+    paginate_by = 10
 
 
 class AdvertView(DetailView):
-    model = Advert
+    
     template_name = 'advert.html'
     form_class = CreateResponseForm
     context_object_name = 'advertView'
@@ -26,11 +28,13 @@ class AdvertView(DetailView):
         response = Response(
             id_user=request.user,
             id_advert=Advert.objects.get(pk=request.POST['id_advert']),
-            text=request.POST['text'],
+            text = request.POST.get('text', False),
         )
         response.save()
 
-        return redirect('/advert/' + str(response.id_advert.pk))
+        return redirect('/')
+
+
 
 class AdvertCreate(CreateView):
     template_name = 'add.html'
@@ -63,8 +67,9 @@ class AdvertUpdate(UpdateView):
 
 class ResponseList(ListView):
     model = Response
-    template_name = 'response.html'
+    template_name = 'responses.html'
     context_object_name = 'responseList'
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

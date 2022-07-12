@@ -1,5 +1,5 @@
 from django import forms
-
+from django.forms import ModelForm, TextInput
 from .models import Advert, Response
 
 
@@ -17,9 +17,9 @@ class CreateAdvertForm(forms.ModelForm):
 
 
 class CreateResponseForm(forms.ModelForm):
-    text = forms.CharField(label="Text", widget=forms.Textarea(attrs={"style": "width:100%"}))
-
 
     class Meta:
         model = Response
-        fields = ['text']
+        fields = ['text', ]
+        # widgets = {'text': TextInput(attrs={'size': 50, 'placeholder': 'Enter your text'})}
+

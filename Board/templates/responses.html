@@ -1,30 +1,41 @@
 {% extends 'deafult.html' %}
 
 {% block title %}
-Adverts
+Responses
 {% endblock title %}
 
 {% block content %}
-    {% if advertList %}
-        <h3> Latest adverts </h3>
-        <br>
+    <h3>Responses</h3>
+    <br>
+    <form method="GET">
+        {{ filter.form }}
+        <input type="submit" value="Search">
+    </form>
+    <br>
+    {% if responseList %}
         <ul>
-        {% for adv in advertList %}
+        {% for record in filter.qs %}
+            <hr>
             <li>
                 <p align="left">
-                    <b>Title:</b> {{ adv.title }} <span style="padding-left: 10px;"><b>Category:</b> {{ adv.id_category }} </span> 
-                    <b style="padding-left: 10px;">{{ adv.dateCreation|date:' ∙ h:i ∙ ' }} </b>
-                    
-                    {% if request.user == adv.id_user %}
-                    <a class="nav-link" href="{% url 'advEdit' adv.id %}">Edit</a>
-                    <a class="nav-link" href="{% url 'advDelete' adv.id %}">Delete</a>
+                    Respond: {{ record.id_user }}
+                <br>
+                    <b><i>{{ record.text }}</i></b>
+                <br>
+                    {% if not record.accepted %}
+                        <a href="responses/accept/{{ record.pk }}">Accept</a>
+                    {% else %}
+                        Отзыв принят
                     {% endif %}
-                    <a class="nav-link" href="{% url 'advDetail' adv.id %}">Look</a>
-                    <hr>
+                    <span style="padding-left: 10px;">
+                        <a href="responses/delete/{{ record.pk }}">Dismiss</a>
+                    </span>
                 </p>
             </li>
         {% endfor %}
         </ul>
+
+        <hr>
         {% if is_paginated %}
             {% if page_obj.has_previous %}
                 <a href="?page=1">First</a>
@@ -45,13 +56,9 @@ Adverts
             {% endif %}
 
         {% endif %}
+
     {% else %}
-        <br>
-        <ul>
         <h3>Nothing here</h3>
-        {% if request.user.is_authenticated %}
-            <a class="nav-link" href="/adverts/add">New advert</a>
-        {% endif %}
-        </ul>
     {% endif %}
+
 {% endblock content %}
