@@ -21,5 +21,5 @@ class CreateResponseForm(forms.ModelForm):
     class Meta:
         model = Response
         fields = ['text', ]
-        # widgets = {'text': TextInput(attrs={'size': 50, 'placeholder': 'Enter your text'})}
+        widgets = {'text': TextInput(attrs={'size': 100, 'placeholder': 'Enter your text here'})}
 

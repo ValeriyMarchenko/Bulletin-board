@@ -6,22 +6,27 @@ Adverts
 
 {% block content %}
     {% if advertList %}
-        <h3> Latest adverts </h3>
+        <br>
+        <div align="center">
+            <h3> Latest adverts </h3>
+        </div>
         <br>
         <ul>
         {% for adv in advertList %}
             <li>
-                <p align="left">
-                    <b>Title:</b> {{ adv.title }} <span style="padding-left: 10px;"><b>Category:</b> {{ adv.id_category }} </span> 
-                    <b style="padding-left: 10px;">{{ adv.dateCreation|date:' ∙ h:i ∙ ' }} </b>
-                    
+                <div style="float: right;width:35%; ">
                     {% if request.user == adv.id_user %}
                     <a class="nav-link" href="{% url 'advEdit' adv.id %}">Edit</a>
                     <a class="nav-link" href="{% url 'advDelete' adv.id %}">Delete</a>
                     {% endif %}
+                </div>
+                <div align="left" >
+                    <b>Title:</b> {{ adv.title }} <span style="padding-left: 10px;"><b>Category:</b> {{ adv.id_category }} </span> 
+                    <b style="padding-left: 10px;">{{ adv.dateCreation|date:' ∙ h:i ∙ ' }} </b>
+                
                     <a class="nav-link" href="{% url 'advDetail' adv.id %}">Look</a>
-                    <hr>
-                </p>
+                    <hr style="width:70%;text-align:left;margin-left:0">
+                </div>
             </li>
         {% endfor %}
         </ul>

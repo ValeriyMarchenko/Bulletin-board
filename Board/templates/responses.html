@@ -5,37 +5,47 @@ Responses
 {% endblock title %}
 
 {% block content %}
+    <br>
+    <div align="center">
     <h3>Responses</h3>
+    </div>
     <br>
     <form method="GET">
         {{ filter.form }}
         <input type="submit" value="Search">
     </form>
     <br>
+    <hr style="width:90%;text-align:left;margin-left:0">
     {% if responseList %}
         <ul>
+            
         {% for record in filter.qs %}
-            <hr>
-            <li>
-                <p align="left">
-                    Respond: {{ record.id_user }}
-                <br>
-                    <b><i>{{ record.text }}</i></b>
-                <br>
-                    {% if not record.accepted %}
-                        <a href="responses/accept/{{ record.pk }}">Accept</a>
-                    {% else %}
-                        Отзыв принят
-                    {% endif %}
-                    <span style="padding-left: 10px;">
-                        <a href="responses/delete/{{ record.pk }}">Dismiss</a>
-                    </span>
-                </p>
-            </li>
+        
+            {% if not record.accepted %}
+                
+                <li>
+                    <p align="left">
+                        Respond by: {{ record.id_user }}
+                    <br>
+                        <b><i>{{ record.text }}</i></b>
+                    <br>
+                        {% if not record.accepted %}
+                            <a href="responses/accept/{{ record.pk }}">Accept</a>
+                        {% else %}
+                            Accepted
+                        {% endif %}
+                        <span style="padding-left: 10px;">
+                            <a href="responses/delete/{{ record.pk }}">Dismiss</a>
+                        </span>
+                    </p>
+                </li>
+                <hr style="width:80%;text-align:left;margin-left:0">
+            
+            {% endif %}
         {% endfor %}
         </ul>
 
-        <hr>
+        
         {% if is_paginated %}
             {% if page_obj.has_previous %}
                 <a href="?page=1">First</a>

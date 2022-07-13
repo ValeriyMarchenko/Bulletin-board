@@ -7,6 +7,9 @@ from .filters import ResponseFilter
 
 from django.shortcuts import redirect
 from datetime import datetime
+from django.views.generic.edit import FormMixin
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class AdvertList(ListView):
@@ -17,7 +20,7 @@ class AdvertList(ListView):
     paginate_by = 10
 
 
-class AdvertView(DetailView):
+class AdvertView(FormMixin, DetailView):
     
     template_name = 'advert.html'
     form_class = CreateResponseForm
@@ -36,7 +39,7 @@ class AdvertView(DetailView):
 
 
 
-class AdvertCreate(CreateView):
+class AdvertCreate(CreateView, LoginRequiredMixin):
     template_name = 'add.html'
     form_class = CreateAdvertForm
 
@@ -55,7 +58,7 @@ class AdvertCreate(CreateView):
 
 
 
-class AdvertUpdate(UpdateView):
+class AdvertUpdate(UpdateView, LoginRequiredMixin):
     template_name = 'edit.html'
     form_class = CreateAdvertForm
  
@@ -82,9 +85,17 @@ class ResponseList(ListView):
 class ResponseDelete(DeleteView):
     template_name = 'delete_response.html'
     queryset = Advert.objects.all()
-    success_url = '/adverts/'
+    success_url = '/adverts/responses'
 
 
 class ResponseAccept(DetailView):
-    pass
+    model = Response
+    template_name = 'accept_response.html'
+
+    def post(self, request, *args, **kwargs):
+        response = Response.objects.get(pk=request.POST['id_resp'])
+        response.accepted = True
+        response.save()
+
+        return redirect('/adverts/responses')
 

@@ -6,26 +6,34 @@ Advert
 {% endblock title %}
 
 {% block content %}
+    <br>
     <b>Title:</b> {{ advertView.title }} <span style="padding-left: 10px;"><b>Category:</b> {{ advertView.id_category }} </span> 
     <b style="padding-left: 10px;">{{ advertView.dateCreation|date:' ∙ h:i ∙ ' }} </b>
     <b style="padding-left: 10px;">By {{ advertView.id_user }} </b>
     <br>
-    <hr>
+    <hr style="width:70%;text-align:left;margin-left:0">
+
     <p align="justify">
         {{ advertView.text }}
         <br>
         {{ advertView.upload.url }}
     </p>
     {% if request.user != advertView.id_user %}
-        <hr>
-        <b>Respond</b>
+        <hr style="width:70%;text-align:left;margin-left:0">
+        <div align="center">
+            <b>Respond</b>
+        </div>
         <form method="POST">
             {% csrf_token %}
         <table align="center">
+         
             {{ form }}
+        
         </table>
+        <div align="center">
             <input type="hidden" name="id_advert" value="{{ advertView.pk }}">
             <input type="submit" value="Confirm">
+        </div>
         </form>
     {% endif %}
 {% endblock content %}
