@@ -14,6 +14,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 
+from django.contrib.auth.decorators import login_required
+
+
 
 
 class AdvertList(ListView):
@@ -46,8 +49,7 @@ class AdvertList(ListView):
 #     {% endif %}
 # {% endif %}
 
-
-class AdvertView(FormMixin, DetailView):
+class AdvertView(FormMixin, DetailView, LoginRequiredMixin):
     
     template_name = 'advert.html'
     form_class = CreateResponseForm
