@@ -11,6 +11,10 @@ from django.views.generic.edit import FormMixin
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+
+
 
 class AdvertList(ListView):
     model = Advert
@@ -58,21 +62,7 @@ class AdvertView(FormMixin, DetailView):
         )
         response.save()
 
-        return redirect('/')
-
-
-
-class AdvertCreate(CreateView, LoginRequiredMixin):
-    template_name = 'add.html'
-    form_class = CreateAdvertForm
-
-    def post(self, request, *args, **kwargs):
-        response = Response(
-            id_user=request.user,
-            id_advert = Advert.objects.get(pk=request.POST['id_advert']),
-            text=request.POST['text'],
-        )
-        response.save()
+        user = response.id_advert.id_user
 
         html_content = render_to_string('mail_response.html', {'response': response, })
 
@@ -88,17 +78,29 @@ class AdvertCreate(CreateView, LoginRequiredMixin):
         msg.attach_alternative(html_content, "text/html")
         msg.send()
 
+        
+
+        return redirect('/')
+
+
+
+class AdvertCreate(CreateView, LoginRequiredMixin):
+    template_name = 'add.html'
+    form_class = CreateAdvertForm
+
+    def post(self, request, *args, **kwargs):
+        advert = Advert(
+            id_user=request.user,
+            id_category=request.POST['category'],
+            title = request.POST['title'],
+            text=request.POST['text'],
+            image = request.POST['image'],
+            file=request.POST['file']
+        )
+        advert.save()
+
         return redirect('/adverts/')
-
-
-# advert = Advert(
-#     id_user=request.user,
-#     id_category=request.POST['category'],
-#     title = request.POST['title'],
-#     text=request.POST['text'],
-#     image = request.POST['image'],
-#     file=request.POST['file']
-# )
+        
 
 
 
@@ -126,9 +128,9 @@ class ResponseList(ListView):
         return context
 
 
-class ResponseDelete(LoginRequiredMixin, DeleteView):
+class ResponseDelete(DeleteView):
     template_name = 'delete_response.html'
-    queryset = Response.objects.all()
+    queryset = Advert.objects.all()
     success_url = '/adverts/responses'
 
 

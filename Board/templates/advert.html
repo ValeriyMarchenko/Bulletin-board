@@ -16,7 +16,9 @@ Advert
     <p align="justify">
         {{ advertView.text }}
         <br>
-        {{ advertView.upload.url }}
+        {% for img in advertView.image.all %}
+            <img src="{{ img.media.url }}" alt="Image">
+        {% endfor %}
     </p>
     {% if request.user != advertView.id_user %}
         <hr style="width:70%;text-align:left;margin-left:0">

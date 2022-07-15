@@ -18,8 +18,8 @@ class Advert(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
     id_category = models.CharField(max_length=12, choices=CATEGORY, default='DDs')
     text = models.TextField()
-    file = models.FileField(upload_to='uploads/')
-    image = models.ImageField(upload_to='uploads/')
+    file = models.FileField(upload_to='media/')
+    image = models.ImageField(upload_to='media/')
     title = models.CharField(max_length=128)
     dateCreation = models.DateTimeField(auto_now_add = True)
 
