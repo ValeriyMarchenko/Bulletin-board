@@ -17,58 +17,32 @@ Responses
     <br>
     <hr style="width:90%;text-align:left;margin-left:0">
     {% if responseList %}
-        <ul>
+    <ul>
             
         {% for record in filter.qs %}
         
-            {% if not record.accepted %}
-                
-                <li>
-                    <p align="left">
-                        Respond by: {{ record.id_user }}
-                    <br>
-                        <b><i>{{ record.text }}</i></b>
-                    <br>
-                        {% if not record.accepted %}
-                            <a href="responses/accept/{{ record.pk }}">Accept</a>
-                        {% else %}
-                            Accepted
-                        {% endif %}
-                        <span style="padding-left: 10px;">
-                            <a href="responses/delete/{{ record.pk }}">Dismiss</a>
-                        </span>
-                    </p>
-                </li>
-                <hr style="width:80%;text-align:left;margin-left:0">
-            
+            {% if not record.accepted %} 
+            <li>
+                <p align="left">
+                    Respond by: {{ record.id_user }}
+                <br>
+                    <b><i>{{ record.text }}</i></b>
+                <br>
+                    {% if not record.accepted %}
+                        <a href="responses/accept/{{ record.pk }}">Accept</a>
+                    {% else %}
+                        Accepted
+                    {% endif %}
+                    <span style="padding-left: 10px;">
+                        <a href="responses/delete/{{ record.pk }}">Dismiss</a>
+                    </span>
+                </p>
+            </li>
+            <hr style="width:80%;text-align:left;margin-left:0">
             {% endif %}
         {% endfor %}
-        </ul>
-
-        
-        {% if is_paginated %}
-            {% if page_obj.has_previous %}
-                <a href="?page=1">First</a>
-                <a href="?page={{ page_obj.previous_page_number }}"><<<</a>
-            {% endif %}
-
-            {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
-                    <a>{{ num }}</a>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                    <a href="?page={{ num }}">{{ num }}</a>
-                {% endif %}
-            {% endfor %}
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">>>></a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">End</a>
-            {% endif %}
-
-        {% endif %}
-
+    </ul>
     {% else %}
         <h3>Nothing here</h3>
     {% endif %}
-
 {% endblock content %}

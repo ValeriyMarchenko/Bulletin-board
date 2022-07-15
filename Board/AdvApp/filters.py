@@ -14,3 +14,4 @@ class ResponseFilter(FilterSet):
     class Meta:
         model = Response
         fields = ['id_user', 'id_advert']
+        

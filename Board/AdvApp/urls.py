@@ -9,5 +9,5 @@ urlpatterns = [
    path('edit/<int:pk>', AdvertUpdate.as_view(), name = 'advEdit'),
    path('responses', ResponseList.as_view(), name = 'responses'),
    path('responses/accept/<int:pk>', ResponseAccept.as_view(), name = 'advAccept'),
-   path('delete/<int:pk>', ResponseDelete.as_view(), name = "advDelete"),
+   path('responses/delete/<int:pk>', ResponseDelete.as_view(), name = "advDelete"),
 ]

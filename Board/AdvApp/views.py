@@ -17,7 +17,30 @@ class AdvertList(ListView):
     template_name = 'adverts.html'
     context_object_name = 'advertList'
     queryset = Advert.objects.order_by('-dateCreation')
-    paginate_by = 10
+    # paginate_by = 10
+
+
+### if pagination is needed use this in .html ###
+
+# {% if is_paginated %}
+#     {% if page_obj.has_previous %}
+#         <a href="?page=1">First</a>
+#         <a href="?page={{ page_obj.previous_page_number }}"><<<</a>
+#     {% endif %}
+
+#     {% for num in page_obj.paginator.page_range %}
+#         {% if page_obj.number == num %}
+#             <a>{{ num }}</a>
+#         {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+#             <a href="?page={{ num }}">{{ num }}</a>
+#         {% endif %}
+#     {% endfor %}
+
+#     {% if page_obj.has_next %}
+#         <a href="?page={{ page_obj.next_page_number }}">>>></a>
+#         <a href="?page={{ page_obj.paginator.num_pages }}">End</a>
+#     {% endif %}
+# {% endif %}
 
 
 class AdvertView(FormMixin, DetailView):
@@ -44,17 +67,38 @@ class AdvertCreate(CreateView, LoginRequiredMixin):
     form_class = CreateAdvertForm
 
     def post(self, request, *args, **kwargs):
-        advert = Advert(
+        response = Response(
             id_user=request.user,
-            id_category=request.POST['category'],
-            title = request.POST['title'],
+            id_advert = Advert.objects.get(pk=request.POST['id_advert']),
             text=request.POST['text'],
-            image = request.POST['image'],
-            file=request.POST['file']
         )
-        advert.save()
+        response.save()
+
+        html_content = render_to_string('mail_response.html', {'response': response, })
+
+        mail_subject = f'Hi {user}. You have new response on your "{response.id_advert}" advert!'
+
+        msg = EmailMultiAlternatives(
+            subject=mail_subject,
+            body='',
+            from_email='s44tpdude@yandex.ru',
+            to=[user.email],
+        )
+
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
 
         return redirect('/adverts/')
+
+
+# advert = Advert(
+#     id_user=request.user,
+#     id_category=request.POST['category'],
+#     title = request.POST['title'],
+#     text=request.POST['text'],
+#     image = request.POST['image'],
+#     file=request.POST['file']
+# )
 
 
 
@@ -72,7 +116,7 @@ class ResponseList(ListView):
     model = Response
     template_name = 'responses.html'
     context_object_name = 'responseList'
-    paginate_by = 10
+    # paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -82,9 +126,9 @@ class ResponseList(ListView):
         return context
 
 
-class ResponseDelete(DeleteView):
+class ResponseDelete(LoginRequiredMixin, DeleteView):
     template_name = 'delete_response.html'
-    queryset = Advert.objects.all()
+    queryset = Response.objects.all()
     success_url = '/adverts/responses'
 
 
