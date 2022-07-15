@@ -16,9 +16,9 @@ Advert
     <p align="justify">
         {{ advertView.text }}
         <br>
-        {% for img in advertView.image.all %}
-            <img src="{{ img.media.url }}" alt="Image">
-        {% endfor %}
+        {% load static %}
+        <img src="{% get_media_prefix %}{{ advertView.image }}" alt="Image">
+        
     </p>
     {% if request.user != advertView.id_user %}
         <hr style="width:70%;text-align:left;margin-left:0">

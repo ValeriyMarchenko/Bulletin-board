@@ -10,4 +10,5 @@ urlpatterns = [
    path('responses', ResponseList.as_view(), name = 'responses'),
    path('responses/accept/<int:pk>', ResponseAccept.as_view(), name = 'advAccept'),
    path('responses/delete/<int:pk>', ResponseDelete.as_view(), name = "advDelete"),
+   path('delete/<int:pk>', AdvertDelete.as_view(), name = "Delete"),
 ]

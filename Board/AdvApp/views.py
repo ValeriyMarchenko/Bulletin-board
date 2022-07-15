@@ -78,8 +78,6 @@ class AdvertView(FormMixin, DetailView):
         msg.attach_alternative(html_content, "text/html")
         msg.send()
 
-        
-
         return redirect('/')
 
 
@@ -113,6 +111,11 @@ class AdvertUpdate(UpdateView, LoginRequiredMixin):
         id = self.kwargs.get('pk')
         return Advert.objects.get(pk=id)
 
+class AdvertDelete(DeleteView, LoginRequiredMixin):
+    template_name = 'delete_advert.html'
+    queryset = Advert.objects.all()
+    success_url = '/adverts'
+
 
 class ResponseList(ListView):
     model = Response
@@ -130,7 +133,7 @@ class ResponseList(ListView):
 
 class ResponseDelete(DeleteView):
     template_name = 'delete_response.html'
-    queryset = Advert.objects.all()
+    queryset = Response.objects.all()
     success_url = '/adverts/responses'
 
 
