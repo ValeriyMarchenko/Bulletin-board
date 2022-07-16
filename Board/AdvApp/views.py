@@ -10,13 +10,10 @@ from datetime import datetime
 from django.views.generic.edit import FormMixin
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
-
-from django.contrib.auth.decorators import login_required
-
-
 
 
 class AdvertList(ListView):
@@ -48,6 +45,7 @@ class AdvertList(ListView):
 #         <a href="?page={{ page_obj.paginator.num_pages }}">End</a>
 #     {% endif %}
 # {% endif %}
+
 
 class AdvertView(FormMixin, DetailView, LoginRequiredMixin):
     
@@ -83,7 +81,6 @@ class AdvertView(FormMixin, DetailView, LoginRequiredMixin):
         return redirect('/')
 
 
-
 class AdvertCreate(CreateView, LoginRequiredMixin):
     template_name = 'add.html'
     form_class = CreateAdvertForm
@@ -94,14 +91,12 @@ class AdvertCreate(CreateView, LoginRequiredMixin):
             id_category=request.POST['category'],
             title = request.POST['title'],
             text=request.POST['text'],
-            image = request.POST['image'],
-            file=request.POST['file']
+            image = request.FILES.get('image', False),
+            file=request.FILES.get('file', False)
         )
         advert.save()
 
         return redirect('/adverts/')
-        
-
 
 
 class AdvertUpdate(UpdateView, LoginRequiredMixin):
@@ -149,4 +144,3 @@ class ResponseAccept(DetailView):
         response.save()
 
         return redirect('/adverts/responses')
-

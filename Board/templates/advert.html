@@ -12,13 +12,16 @@ Advert
     <b style="padding-left: 10px;">By {{ advertView.id_user }} </b>
     <br>
     <hr style="width:70%;text-align:left;margin-left:0">
-
     <p align="justify">
         {{ advertView.text }}
         <br>
         {% load static %}
-        <img src="{% get_media_prefix %}{{ advertView.image }}" alt="Image">
-        
+        <img src="{% get_media_prefix %}{{ advertView.image }}" alt="Image" width="400">
+        {% if advertView.file %}
+            <div align = 'left'>
+                <li><a href="{{ advertView.file.url }}">{{ advertView.file.name }}</a></li>
+            </div>
+        {% endif %}
     </p>
     {% if request.user != advertView.id_user %}
         <hr style="width:70%;text-align:left;margin-left:0">
@@ -27,15 +30,13 @@ Advert
         </div>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-        <table align="center">
-         
-            {{ form }}
-        
-        </table>
-        <div align="center">
-            <input type="hidden" name="id_advert" value="{{ advertView.pk }}">
-            <input type="submit" value="Confirm">
-        </div>
+            <table align="center">
+                {{ form }}
+            </table>
+            <div align="center">
+                <input type="hidden" name="id_advert" value="{{ advertView.pk }}">
+                <input type="submit" value="Confirm">
+            </div>
         </form>
     {% endif %}
 {% endblock content %}

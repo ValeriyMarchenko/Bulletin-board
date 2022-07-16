@@ -1,9 +1,5 @@
 {% extends 'deafult.html' %}
 
-{% block title %}
-Adverts
-{% endblock title %}
-
 {% block content %}
     {% if advertList %}
         <br>
@@ -12,32 +8,30 @@ Adverts
         </div>
         <br>
         <ul>
-        {% for adv in advertList %}
-            <li>
-                <div style="float: right;width:35%; ">
-                    {% if request.user == adv.id_user %}
-                    <a class="nav-link" href="{% url 'advEdit' adv.id %}">Edit</a>
-                    <a class="nav-link" href="{% url 'Delete' adv.id %}">Delete</a>
-                    {% endif %}
-                </div>
-                <div align="left" >
-                    <b>Title:</b> {{ adv.title }} <span style="padding-left: 10px;"><b>Category:</b> {{ adv.id_category }} </span> 
-                    <b style="padding-left: 10px;">{{ adv.dateCreation|date:' ∙ h:i ∙ ' }} </b>
-                
-                    <a class="nav-link" href="{% url 'advDetail' adv.id %}">Look</a>
-                    <hr style="width:70%;text-align:left;margin-left:0">
-                </div>
-            </li>
-        {% endfor %}
+            {% for adv in advertList %}
+                <li>
+                    <div style="float: right;width:65%; ">
+                        {% if request.user == adv.id_user %}
+                            <a class="nav-link" href="{% url 'advEdit' adv.id %}">Edit</a>
+                            <a class="nav-link" href="{% url 'Delete' adv.id %}">Delete</a>
+                        {% endif %}
+                    </div>
+                    <div align="left" >
+                        <b>Title:</b> {{ adv.title }} <span style="padding-left: 10px;"><b>Category:</b> {{ adv.id_category }} </span> 
+                        <b style="padding-left: 10px;">{{ adv.dateCreation|date:' ∙ h:i ∙ ' }} </b>
+                        <a class="nav-link" href="{% url 'advDetail' adv.id %}">Look</a>
+                        <hr style="width:70%;text-align:left;margin-left:0">
+                    </div>
+                </li>
+            {% endfor %}
         </ul>
-       
     {% else %}
         <br>
         <ul>
-        <h3>Nothing here</h3>
-        {% if request.user.is_authenticated %}
-            <a class="nav-link" href="/adverts/add">New advert</a>
-        {% endif %}
+            <h3>Nothing here</h3>
+            {% if request.user.is_authenticated %}
+                <a class="nav-link" href="/adverts/add">New advert</a>
+            {% endif %}
         </ul>
     {% endif %}
 {% endblock content %}

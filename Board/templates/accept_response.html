@@ -5,9 +5,9 @@ Response
 {% endblock title %}
 
 {% block content %}
-<h3>You want to respond {{ response.id_user }} ?</h3>
-<form method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="id_resp" value="{{ response.pk }}">
-    <input type="submit" value="Confirm"></form>
+    <h3>You want to respond {{ response.id_user }} ?</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="id_resp" value="{{ response.pk }}">
+        <input type="submit" value="Confirm"></form>
 {% endblock content %}

@@ -8,17 +8,17 @@ Advert
     {% if request.user != advertView.id_user %}
         <br>
         <div align="center">
-        <h3>New advert</h3>
+            <h3>New advert</h3>
         </div>
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-        <table align="center">
-            {{ form }}
-        </table>
-        <div align="center">
-            <input type="hidden" name="id_advert" value="{{ advertView.pk }}">
-            <input type="submit" value="Confirm">
-        </div>
+            <table align="center">
+                {{ form }}
+            </table>
+            <div align="center">
+                <input type="hidden" name="id_advert" value="{{ advertView.pk }}">
+                <input type="submit" value="Confirm">
+            </div>
         </form>
     {% endif %}
 {% endblock content %}
