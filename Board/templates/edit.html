@@ -1,19 +1,15 @@
 {% extends 'deafult.html' %}
 
-{% block title %}
-Advert
-{% endblock title %}
-
 {% block content %}
-<h2>Edit advert</h2>
-
-<form method="POST">
-    {% csrf_token %}
-<table align="center">
-    {{ form }}
-</table>
-    <br>
-    <input type="submit" value="Save">
-</form>
-
+    <div align="center">
+        <h2>Edit advert</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <table align="center">
+                {{ form }}
+            </table>
+            <br>
+            <input type="submit" value="Save">
+        </form>
+    </div>
 {% endblock content %}

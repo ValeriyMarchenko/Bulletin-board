@@ -66,7 +66,7 @@ class AdvertView(FormMixin, DetailView, LoginRequiredMixin):
 
         html_content = render_to_string('mail_response.html', {'response': response, })
 
-        mail_subject = f'Hi {user}. You have new response on your "{response.id_advert}" advert!'
+        mail_subject = f'Hi {user}. You have new response on your advert!'
 
         msg = EmailMultiAlternatives(
             subject=mail_subject,

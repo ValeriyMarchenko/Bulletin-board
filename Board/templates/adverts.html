@@ -10,7 +10,7 @@
         <ul>
             {% for adv in advertList %}
                 <li>
-                    <div style="float: right;width:65%; ">
+                    <div style="float: right;width:35%; ">
                         {% if request.user == adv.id_user %}
                             <a class="nav-link" href="{% url 'advEdit' adv.id %}">Edit</a>
                             <a class="nav-link" href="{% url 'Delete' adv.id %}">Delete</a>

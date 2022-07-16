@@ -1,13 +1,12 @@
 {% extends 'deafult.html' %}
 
-{% block title %}
-Response
-{% endblock title %}
-
 {% block content %}
-    <h3>You want to respond {{ response.id_user }} ?</h3>
+    <br>
+    <h3>You want to accept {{ response.id_user }}'s respond?</h3>
+    <br>
     <form method="POST">
         {% csrf_token %}
         <input type="hidden" name="id_resp" value="{{ response.pk }}">
-        <input type="submit" value="Confirm"></form>
+        <input type="submit" value="Confirm">
+    </form>
 {% endblock content %}
