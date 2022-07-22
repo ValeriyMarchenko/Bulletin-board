@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=&)=q+=dv)#*uiy3%9d*b1z1e1sc9db3q6xa##t5u8il*%4vtw'
+SECRET_KEY = 'SECRET_KEY'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -166,11 +169,11 @@ ACCOUNT_EMAIL_VERIFICATION = True
 ACCOUNT_FORMS = {'signup': 'allauth.account.forms.SignupForm'}
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-SERVER_EMAIL = 's44tpdude@yandex.ru' 
+SERVER_EMAIL = 'SERVER_EMAIL'
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 's44ptdude'
-EMAIL_HOST_PASSWORD = '' # pass 
+EMAIL_HOST_USER = 'EMAIL_HOST_USER'
+EMAIL_HOST_PASSWORD = 'EMAIL_HOST_PASSWORD'
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@yandex.ru'
